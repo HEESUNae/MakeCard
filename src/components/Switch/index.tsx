@@ -8,14 +8,16 @@ interface SwitchProps {
 
 const Switch: React.FC<SwitchProps> = ({ onChange, checked }) => {
   return (
-    <ReactSwitch
-      onChange={onChange}
-      checked={checked}
-      onColor={'#000'}
-      offColor={'#ddd'}
-      checkedIcon={false}
-      uncheckedIcon={false}
-    />
+    <label>
+      <ReactSwitch
+        onChange={onChange}
+        checked={checked}
+        onColor={'#000'}
+        offColor={'#ddd'}
+        checkedIcon={false}
+        uncheckedIcon={false}
+      />
+    </label>
   );
 };
 

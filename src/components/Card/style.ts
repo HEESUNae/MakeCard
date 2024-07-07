@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 import { FontStyle } from '../../App';
 
-export const StyledCard = styled.div<{ $bgColor?: string; $bgImg?: string; $fontStyle: FontStyle }>`
+interface StyledCardProps {
+  $bgColor?: string;
+  $bgImg?: string;
+  $fontStyle: FontStyle;
+}
+
+export const StyledCard = styled.div<StyledCardProps>`
   width: 40rem;
   height: 30rem;
-  background-image: url(${(props) => props.$bgImg});
+  background: url(${(props) => props.$bgImg}) no-repeat 50% 50%;
   background-color: ${(props) => props.$bgColor};
   border-radius: 1rem;
   padding: 2rem;

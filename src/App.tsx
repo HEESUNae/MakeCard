@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import Select from 'react-select';
 import './App.css';
 import Header from './containers/Header';
 import Card from './components/Card';
@@ -6,7 +7,9 @@ import Layout from './containers/Layout';
 import ColorPicker from './components/ColorPicker';
 import Button from './components/Button';
 import Switch from './components/Switch';
-import Select from 'react-select';
+import InputFile from './components/InputFile';
+import InputNumber from './components/InputNumber';
+import { convertToBase64 } from './utill/utill';
 
 export interface FontStyle {
   fontWeight: boolean;
@@ -14,20 +17,6 @@ export interface FontStyle {
   fontColor: boolean;
   fontSize: number | string;
   fontfamily: string;
-}
-
-// 이미지를 읽어서 Base64로 변환하는 함수
-function convertToBase64(file: any) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-
-    reader.readAsDataURL(file);
-
-    return reader.result;
-  });
 }
 
 function App() {
@@ -50,10 +39,11 @@ function App() {
   };
 
   // 배경 이미지 선택
-  const handleBgImg = async (e: any) => {
-    const imageUrl = await convertToBase64(e.target.files[0]);
-    // console.log(imageUrl);
-    setBgImg(String(imageUrl));
+  const handleBgImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const imageUrl = await convertToBase64(e.target.files[0]);
+      setBgImg(String(imageUrl));
+    }
   };
 
   // 폰트 셀렉트 옵션
@@ -62,10 +52,6 @@ function App() {
     { value: 'HSSanTokki20-Regular', label: 'HS산토끼체2.0' },
     { value: 'GowunBatang-Regular', label: '고운바탕체' },
   ];
-
-  useEffect(() => {
-    console.log(bgColor);
-  }, [bgColor]);
 
   return (
     <div className="App">
@@ -81,8 +67,7 @@ function App() {
               <div className="background-style-controler">
                 <ColorPicker background={bgColor} handleBgColor={(color) => handleBgColor(color)} />
                 <div className="btn-wrap">
-                  <input type="file" name="file" id="file" onChange={handleBgImg} />
-                  <label htmlFor="file">내 컴퓨터에서 이미지 찾기</label>
+                  <InputFile onChange={handleBgImg} />
                   <Button title="링크로 이미지 배경 변경" btnStyle="primary" />
                 </div>
               </div>
@@ -95,13 +80,12 @@ function App() {
                   <Select
                     options={options}
                     defaultValue={options[0]}
-                    onChange={(e) => setFontStyle((prev: any) => ({ ...prev, fontfamily: e?.value }))}
+                    onChange={(e) => setFontStyle((prev: FontStyle) => ({ ...prev, fontfamily: e?.value || '' }))}
                   />
                 </label>
                 <label>
                   크기
-                  <input
-                    type="number"
+                  <InputNumber
                     min={16}
                     max={30}
                     defaultValue={24}
@@ -119,7 +103,6 @@ function App() {
                     checked={fontStyle.fontWeight}
                   />
                 </label>
-
                 <label>
                   그림자
                   <Switch

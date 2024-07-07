@@ -53,23 +53,3 @@ h2 {
   align-items: center;
   gap: 1rem;
 }
-
-input[type='number'] {
-  padding-left: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.4rem;
-  height: 3.8rem;
-}
-
-input[type='file'] {
-  display: none;
-}
-input[type='file'] + label {
-  background: #333;
-  color: #fff;
-  padding: 1rem 1.4rem;
-  border: 0.1rem solid #333;
-  border-radius: 0.8rem;
-  font-size: 1.4rem;
-  cursor: pointer;
-}
