@@ -8,7 +8,7 @@ interface StyledCardProps {
 }
 
 export const StyledCard = styled.div<StyledCardProps>`
-  width: 40rem;
+  width: 38.4rem;
   height: 30rem;
   background: url(${(props) => props.$bgImg}) no-repeat 50% 50%;
   background-color: ${(props) => props.$bgColor};
@@ -27,5 +27,9 @@ export const StyledCard = styled.div<StyledCardProps>`
     color: ${(props) => (props.$fontStyle.fontColor ? 'white' : 'black')};
     font-size: ${(props) => props.$fontStyle.fontSize}px;
     font-family: ${(props) => props.$fontStyle.fontfamily};
+  }
+
+  @media (max-width: 400px) {
+    width: 100%;
   }
 `;

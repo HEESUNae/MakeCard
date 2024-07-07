@@ -25,4 +25,9 @@ export const StyledColorPicker = styled.div`
       grid-column: 2 / 3;
     }
   }
+  @media (max-width: 400px) {
+    .sketch-picker {
+      width: 100% !important;
+    }
+  }
 `;
