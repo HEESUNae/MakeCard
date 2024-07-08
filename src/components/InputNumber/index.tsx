@@ -3,7 +3,7 @@ import { StyledInputNumber } from './style';
 
 interface InputNumberProps {
   min: number;
-  max: number;
+  max?: number;
   defaultValue: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

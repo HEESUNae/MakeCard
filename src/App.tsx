@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Select from 'react-select';
 import './App.css';
+
+// containers
 import Header from './containers/Header';
-import Card from './components/Card';
 import Layout from './containers/Layout';
+import Footer from './containers/Footer';
+import { convertToBase64, downloadImg } from './utill/utill';
+
+// components
+import Card from './components/Card';
 import ColorPicker from './components/ColorPicker';
 import Button from './components/Button';
 import Switch from './components/Switch';
 import InputFile from './components/InputFile';
 import InputNumber from './components/InputNumber';
-import { convertToBase64 } from './utill/utill';
 import Modal from './components/Modal';
 import Input from './components/Input';
-import Footer from './containers/Footer';
 
 export interface FontStyle {
   fontWeight: boolean;
@@ -28,6 +32,7 @@ function App() {
   const [isImgUpdateModal, setIsImgUpdateModal] = useState<boolean>(false); // "이미지주소로 배경변경" 모달 활성화
   const [bgLinkUrl, setBgLinkUrl] = useState<string>(''); // 이미지주소 URL
   const [isBgLinkAlert, setIsBgLinkAlert] = useState(false); // 이미지 주소 미입력시 알림 멘트 활성화
+  const captureRef = useRef<HTMLDivElement | null>(null);
 
   // 폰트 스타일
   const [fontStyle, setFontStyle] = useState<FontStyle>({
@@ -78,6 +83,13 @@ function App() {
     if (bgLinkUrl !== '') setIsBgLinkAlert(false); // 알림멘트 숨김
   };
 
+  // 카드 이미지 다운로드
+  const handleDownloadImg = () => {
+    if (captureRef.current) {
+      downloadImg(captureRef.current);
+    }
+  };
+
   // 폰트 셀렉트 옵션
   const options = [
     { value: 'Freesentation-Regular', label: '프레젠테이션체' },
@@ -104,7 +116,7 @@ function App() {
       <main>
         <Layout>
           <div className="card-edit-contents">
-            <div className="card-container">
+            <div className="card-container" ref={captureRef}>
               <Card bgColor={bgColor} bgImg={bgImg} fontStyle={fontStyle} />
             </div>
             <div className="edit-container">
@@ -137,7 +149,6 @@ function App() {
                     크기
                     <InputNumber
                       min={16}
-                      max={30}
                       defaultValue={24}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setFontStyle((prev) => ({ ...prev, fontSize: e.target.value }))
@@ -172,7 +183,7 @@ function App() {
             </div>
           </div>
           <div className="img-download-btn">
-            <Button title="이미지 다운로드" btnStyle="primary" onClick={() => {}} />
+            <Button title="이미지 다운로드" btnStyle="primary" onClick={handleDownloadImg} />
           </div>
         </Layout>
       </main>
